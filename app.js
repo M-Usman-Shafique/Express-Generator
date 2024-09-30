@@ -5,9 +5,11 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
 const indexRouter = require("./routes/index");
+const userRouter = require("./routes/user");
 const usersRouter = require("./routes/users");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
 
 const app = express();
 
@@ -15,13 +17,24 @@ const app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.use(
-  session({
-    resave: false, // don't resave if session is unchanged
-    saveUninitialized: false, // don't save data which we didn't define
-    secret: "cola123^-sk789", // to encrypt data before save
-  })
-);
+// app.use(
+//   session({
+//     resave: false, // don't resave if session is unchanged
+//     saveUninitialized: false, // don't save data which we didn't define
+//     secret: "cola123^-sk789", // to encrypt data before save
+//   })
+// );
+
+app.use(session({
+  resave: false,
+  saveUninitialized: false,
+  secret: "hello hello baaye baaye"
+  }));
+  app.use(passport.initialize());
+  app.use(passport.session());
+  passport.serializeUser(userRouter.serializeUser());
+  passport.deserializeUser(userRouter.deserializeUser());
+  
 
 app.use(flash());
 
