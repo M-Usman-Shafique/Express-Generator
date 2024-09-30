@@ -17,24 +17,17 @@ const app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-// app.use(
-//   session({
-//     resave: false, // don't resave if session is unchanged
-//     saveUninitialized: false, // don't save data which we didn't define
-//     secret: "cola123^-sk789", // to encrypt data before save
-//   })
-// );
-
-app.use(session({
-  resave: false,
-  saveUninitialized: false,
-  secret: "hello hello baaye baaye"
-  }));
-  app.use(passport.initialize());
-  app.use(passport.session());
-  passport.serializeUser(userRouter.serializeUser());
-  passport.deserializeUser(userRouter.deserializeUser());
-  
+app.use(
+  session({
+    resave: false, // don't resave if session is unchanged
+    saveUninitialized: false, // don't save data which we didn't define
+    secret: "cola123^-sk789", // to encrypt data before save
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+passport.serializeUser(userRouter.serializeUser());
+passport.deserializeUser(userRouter.deserializeUser());
 
 app.use(flash());
 
