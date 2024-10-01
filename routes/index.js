@@ -4,12 +4,37 @@ const router = express.Router();
 const passport = require("passport");
 const user = require("./user");
 const localStrategy = require("passport-local");
+const fs = require("fs");
 
 passport.use(new localStrategy(user.authenticate()));
 
-router.get("/", function (req, res) {
-  res.render("index");
+router.get("/", (req, res) => {
+  fs.readdir("./files", (err, files) => {
+    res.render("todo", { files: files });
+  });
 });
+
+router.get("/file/:filename", (req, res) => {
+  fs.readFile(`./files/${req.params.filename}`, "utf-8", (err, filetext) => {
+    console.log(filetext)
+    res.render("show", { filename: req.params.filename, filetext: filetext });
+  });
+});
+
+router.post("/create", (req, res) => {
+  // console.log(req.body);
+  fs.writeFile(
+    `./files/${req.body.title.split(" ").join("")}.txt`,
+    req.body.details,
+    (err) => {
+      res.redirect("/");
+    }
+  );
+});
+
+// router.get("/", function (req, res) {
+//   res.render("index");
+// });
 
 // router.get("/", function (req, res) {
 //   res.render("index", { title: "Express" });
@@ -124,13 +149,15 @@ router.get("/", function (req, res) {
 //   res.send("see server console");
 // });
 
+// Error Handling
+
 router.get("/profile", isLoggedIn, function (req, res) {
   res.render("profile");
 });
 
 router.get("/login", function (req, res) {
-  res.render("login")
-})
+  res.render("login");
+});
 
 // register route
 router.post("/register", function (req, res) {
