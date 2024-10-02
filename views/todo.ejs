@@ -37,7 +37,6 @@
       }
       .btn {
         background-color: #626262;
-        /* border: none; */
         color: white;
       }
       .btn:hover {
@@ -47,6 +46,12 @@
       .links {
         color: snow;
         font-size: smaller;
+      }
+
+      .flex {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
       }
     </style>
   </head>
@@ -82,7 +87,10 @@
         <div class="col-md-4">
           <div class="task-card">
             <h4><%= file %></h4>
-            <a href="/file/<%= file%>" class="links">Read more</a>
+            <div class="flex">
+              <a href="/file/<%= file%>" class="links">Read more</a>
+              <a href="/edit/<%= file%>" class="links">Edit</a>
+            </div>
           </div>
         </div>
         <% }) %> <% } else { %>
