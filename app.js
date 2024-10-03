@@ -1,3 +1,4 @@
+// app.js
 const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
@@ -5,8 +6,8 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
 const indexRouter = require("./routes/index");
-const userRouter = require("./routes/user");
-const usersRouter = require("./routes/users");
+const userRouter = require("./models/user");
+const usersRouter = require("./models/users");
 const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
