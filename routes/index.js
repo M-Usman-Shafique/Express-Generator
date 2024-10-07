@@ -3,12 +3,28 @@ const Person = require("../models/person");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  res.render("social");
+  res.render("createPerson");
 });
 
-router.get("/posts", async (req, res) => {
+router.get("/people", async (req, res) => {
   let people = await Person.find();
-  res.render("posts", {people: people});
+  res.render("people", { people: people });
+});
+
+router.get("/edit/:id", async (req, res) => {
+  let person = await Person.findOne({ _id: req.params.id });
+  res.render("editPerson", { person });
+});
+
+router.post("/update/:id", async (req, res) => {
+  let { username, email, image} = req.body;
+  let person = await Person.findOneAndUpdate({ _id: req.params.id }, {username, email, image}, {new: true});
+  res.redirect("/people");
+});
+
+router.get("/delete/:id", async (req, res) => {
+  let person = await Person.findOneAndDelete({ _id: req.params.id });
+  res.redirect("/people");
 });
 
 router.post("/create", async (req, res) => {
@@ -20,7 +36,7 @@ router.post("/create", async (req, res) => {
     image,
   });
 
-  res.redirect("/posts");
+  res.redirect("/people");
 });
 
 module.exports = router;

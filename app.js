@@ -6,8 +6,8 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
 const indexRouter = require("./routes/index");
-const userRouter = require("./models/user");
-const usersRouter = require("./models/users");
+// const userRouter = require("./models/user");
+// const usersRouter = require("./models/users");
 const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
@@ -27,8 +27,8 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-passport.serializeUser(userRouter.serializeUser());
-passport.deserializeUser(userRouter.deserializeUser());
+// passport.serializeUser(userRouter.serializeUser());
+// passport.deserializeUser(userRouter.deserializeUser());
 
 app.use(flash());
 
@@ -40,7 +40,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // app.use(express.static("./public"));
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+// app.use("/users", usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
